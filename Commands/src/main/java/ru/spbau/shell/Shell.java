@@ -7,7 +7,8 @@ import java.util.Scanner;
  * Shell Singleton (not multi-thread singleton) class
  */
 public class Shell {
-    private static Scanner reader = new Scanner(System.in);
+    private final static Scanner reader = new Scanner(System.in);
+    private final static String EXIT_SEQUENCE = ":q";
     private static Optional<Shell> instance = Optional.empty();
 
     public static Shell getInstance() {
@@ -30,18 +31,8 @@ public class Shell {
         if (input == null) {
             return false;
         }
-
         input = input.trim();
 
-        if (input.isEmpty()) {
-            return false;
-        }
-
-        if (input.equals(":q")) {
-            return false;
-        }
-
-        return true;
+        return !(input.isEmpty() || input.equals(EXIT_SEQUENCE));
     }
-
 }
