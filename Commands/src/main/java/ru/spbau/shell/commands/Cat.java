@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by airvan21 on 13.09.16.
  */
-public class Cat extends Command {
+public class Cat extends CommandRoot {
 
     public Cat() {
         super(1);

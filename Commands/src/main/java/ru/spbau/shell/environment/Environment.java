@@ -7,7 +7,7 @@ import java.util.Map;
  * Class for storing environment variables
  */
 public class Environment {
-    public static final Map<String, String> table = new HashMap<>();
+    private static final Map<String, String> table = new HashMap<>();
 
     public static void setVariable(String key, String value) {
         table.putIfAbsent(key, value);

@@ -1,5 +1,9 @@
 package ru.spbau.shell;
 
+import org.antlr.v4.runtime.tree.ParseTree;
+import ru.spbau.shell.parser.Parser;
+import ru.spbau.shell.visitors.ShellVisitor;
+
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -23,7 +27,9 @@ public class Shell {
 
     public void run() {
         for (String input = reader.nextLine(); isValidInput(input); input = reader.nextLine()) {
-            System.out.println(input);
+            Optional<ParseTree> tree = Parser.parse(input);
+            ShellVisitor visitor = new ShellVisitor();
+            visitor.visit(tree.get());
         }
     }
 
