@@ -8,7 +8,7 @@ import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
 import java.util.Optional;
 
 /**
- * Created by airvan21 on 25.09.16.
+ * ShellVisitor is a class where is written logic for Command-Tree-Nodes
  */
 public class ShellVisitor extends ShellGrammarBaseVisitor {
     private static final Environment environment = new Environment();
@@ -96,7 +96,10 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
     public Object visitVariable(ShellGrammarParser.VariableContext ctx) {
         System.out.println("visitVariable");
         if (ctx.getText() != null) {
-            storage.pushArgument(ctx.getText());
+            String value = ctx.getText();
+            String variable = value.substring(value.indexOf("$") + 1);
+            // TODO: some logic with translation
+            storage.pushArgument(variable);
         }
 
         return null;

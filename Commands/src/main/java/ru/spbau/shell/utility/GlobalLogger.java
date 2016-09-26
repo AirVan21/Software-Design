@@ -9,10 +9,10 @@ public class GlobalLogger {
     private static Logger logger = Logger.getLogger(GlobalLogger.class.getName());
 
     /**
-     *
-     * @param info
+     * Logs a message to logger object
+     * @param message - info that should be logged
      */
-    public static void log(String info) {
-        logger.info(info);
+    public static void log(String message) {
+        logger.info(message);
     }
 }

@@ -3,8 +3,8 @@ package ru.spbau.shell.visitors;
 import ru.spbau.shell.environment.Environment;
 import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
-import ru.spbau.shell.utility.IExecutable;
-import ru.spbau.shell.utility.IHelper;
+import ru.spbau.shell.interfaces.IExecutable;
+import ru.spbau.shell.interfaces.IHelper;
 
 /**
  * EchoVisitor class is a visitor class for Echo operation

@@ -1,19 +1,17 @@
 package ru.spbau.shell.visitors;
 
-import ru.spbau.shell.Shell;
 import ru.spbau.shell.environment.Environment;
 import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
-import ru.spbau.shell.utility.IExecutable;
-import ru.spbau.shell.utility.IHelper;
-
-import java.io.ByteArrayInputStream;
+import ru.spbau.shell.interfaces.IExecutable;
+import ru.spbau.shell.interfaces.IHelper;
 
 
 /**
- * Created by airvan21 on 26.09.16.
+ * ExitVisitor class is a visitor class for Exit operation
  */
 public class ExitVisitor extends CommandVisitor<ShellGrammarParser.ExitContext> implements IExecutable, IHelper {
+    private static int EXIT_VALUE = 0;
 
     public ExitVisitor() {
         super(0);
@@ -29,6 +27,7 @@ public class ExitVisitor extends CommandVisitor<ShellGrammarParser.ExitContext> 
         if (storage.getSize() != argumentAmount) {
             return false;
         }
+        System.exit(EXIT_VALUE);
 
         return true;
     }
