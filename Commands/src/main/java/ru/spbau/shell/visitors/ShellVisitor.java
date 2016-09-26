@@ -1,87 +1,130 @@
 package ru.spbau.shell.visitors;
 
+import ru.spbau.shell.environment.Environment;
+import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarBaseVisitor;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
-import ru.spbau.shell.utility.ContextTransformer;
 
+import java.util.Optional;
 
 /**
  * Created by airvan21 on 25.09.16.
  */
 public class ShellVisitor extends ShellGrammarBaseVisitor {
+    private static final Environment environment = new Environment();
+    private static final Storage     storage     = new Storage();
 
     @Override
     public Object visitPipeCmd(ShellGrammarParser.PipeCmdContext ctx) {
         System.out.println("visitPipeCmd");
-        this.visitChildren(ctx);
-        return null;
+        PipeVisitor pipeVisitor = new PipeVisitor();
+        pipeVisitor.visit(this, ctx);
+
+        return pipeVisitor;
     }
 
     @Override
     public Object visitAssignment(ShellGrammarParser.AssignmentContext ctx) {
         System.out.println("visitAssignment");
-        return null;
+        AssignmentVisitor assignmentVisitor = new AssignmentVisitor();
+        assignmentVisitor.visit(this, ctx);
+
+        return assignmentVisitor;
     }
 
     @Override
     public Object visitCat(ShellGrammarParser.CatContext ctx) {
         System.out.println("visitCat");
-        System.out.println(ContextTransformer.transformContext(ctx.literal()));
-        return null;
+        CatVisitor catVisitor = new CatVisitor();
+        catVisitor.visit(this, ctx);
+        catVisitor.execute(environment, storage);
+
+        return catVisitor;
     }
 
     @Override
     public Object visitWc(ShellGrammarParser.WcContext ctx) {
         System.out.println("visitWc");
-        return null;
+        WcVisitor wcVisitor = new WcVisitor();
+        wcVisitor.visit(this, ctx);
+        wcVisitor.execute(environment, storage);
+
+        return wcVisitor;
     }
 
     @Override
     public Object visitEcho(ShellGrammarParser.EchoContext ctx) {
         System.out.println("visitEcho");
-        return null;
+        EchoVisitor echoVisitor = new EchoVisitor();
+        echoVisitor.visit(this, ctx);
+        echoVisitor.execute(environment, storage);
+
+        return echoVisitor;
     }
 
     @Override
     public Object visitPwd(ShellGrammarParser.PwdContext ctx) {
         System.out.println("visitPwd");
-        return null;
+        PwdVisitor pwdVisitor = new PwdVisitor();
+        pwdVisitor.visit(this, ctx);
+        pwdVisitor.execute(environment, storage);
+
+        return pwdVisitor;
     }
 
     @Override
     public Object visitExit(ShellGrammarParser.ExitContext ctx) {
         System.out.println("visitExit");
-        return null;
+        ExitVisitor exitVisitor = new ExitVisitor();
+        exitVisitor.visit(this, ctx);
+        exitVisitor.execute(environment, storage);
+
+        return exitVisitor;
     }
 
     @Override
     public Object visitId(ShellGrammarParser.IdContext ctx) {
         System.out.println("visitId");
+        if (ctx.getText() != null) {
+            storage.pushArgument(ctx.getText());
+        }
+
         return null;
     }
 
     @Override
     public Object visitVariable(ShellGrammarParser.VariableContext ctx) {
         System.out.println("visitVariable");
-        return null;
-    }
+        if (ctx.getText() != null) {
+            storage.pushArgument(ctx.getText());
+        }
 
-    @Override
-    public Object visitLiteral(ShellGrammarParser.LiteralContext ctx) {
-        System.out.println("visitLiteral");
         return null;
+
     }
 
     @Override
     public Object visitFullQuoting(ShellGrammarParser.FullQuotingContext ctx) {
         System.out.println("visitFullQuoting");
+        if (ctx.getText() != null) {
+            storage.pushArgument(ctx.getText());
+        }
+
         return null;
     }
 
     @Override
     public Object visitWeakQuoting(ShellGrammarParser.WeakQuotingContext ctx) {
         System.out.println("visitWeakQuoting");
+        if (ctx.getText() != null) {
+            storage.pushArgument(ctx.getText());
+        }
+
         return null;
+    }
+
+    public static Optional<String> getResult() {
+         return storage.isEmpty() ? Optional.empty() : Optional.of(storage.popArgument());
     }
 }
 

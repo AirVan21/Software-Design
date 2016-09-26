@@ -493,20 +493,20 @@ public class ShellGrammarParser extends Parser {
 			{
 			setState(66);
 			match(ECHO);
-			setState(68); 
+			setState(70);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			do {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ID) | (1L << VAR_ID) | (1L << FullQString) | (1L << WeakQString))) != 0)) {
 				{
 				{
 				setState(67);
 				literal();
 				}
 				}
-				setState(70); 
+				setState(72);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ID) | (1L << VAR_ID) | (1L << FullQString) | (1L << WeakQString))) != 0) );
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -544,11 +544,11 @@ public class ShellGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(72);
-			id();
 			setState(73);
-			match(ASSIGN);
+			id();
 			setState(74);
+			match(ASSIGN);
+			setState(75);
 			literal();
 			}
 		}
@@ -582,7 +582,7 @@ public class ShellGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(76);
+			setState(77);
 			match(ID);
 			}
 		}
@@ -616,7 +616,7 @@ public class ShellGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(78);
+			setState(79);
 			match(VAR_ID);
 			}
 		}
@@ -659,33 +659,33 @@ public class ShellGrammarParser extends Parser {
 		LiteralContext _localctx = new LiteralContext(_ctx, getState());
 		enterRule(_localctx, 22, RULE_literal);
 		try {
-			setState(84);
+			setState(85);
 			switch (_input.LA(1)) {
 			case FullQString:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(80);
+				setState(81);
 				fullQuoting();
 				}
 				break;
 			case WeakQString:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(81);
+				setState(82);
 				weakQuoting();
 				}
 				break;
 			case VAR_ID:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(82);
+				setState(83);
 				variable();
 				}
 				break;
 			case ID:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(83);
+				setState(84);
 				id();
 				}
 				break;
@@ -723,7 +723,7 @@ public class ShellGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(86);
+			setState(87);
 			match(FullQString);
 			}
 		}
@@ -757,7 +757,7 @@ public class ShellGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(88);
+			setState(89);
 			match(WeakQString);
 			}
 		}
@@ -773,29 +773,29 @@ public class ShellGrammarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\20]\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\20^\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
 		"\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\3\2\3\2\3\2\3\2\5\2#\n\2\3\3\3\3\3"+
 		"\3\6\3(\n\3\r\3\16\3)\3\4\3\4\3\4\3\4\3\4\5\4\61\n\4\3\5\3\5\3\6\3\6\3"+
 		"\7\3\7\7\79\n\7\f\7\16\7<\13\7\3\b\3\b\7\b@\n\b\f\b\16\bC\13\b\3\t\3\t"+
-		"\6\tG\n\t\r\t\16\tH\3\n\3\n\3\n\3\n\3\13\3\13\3\f\3\f\3\r\3\r\3\r\3\r"+
-		"\5\rW\n\r\3\16\3\16\3\17\3\17\3\17\2\2\20\2\4\6\b\n\f\16\20\22\24\26\30"+
-		"\32\34\2\2\\\2\"\3\2\2\2\4$\3\2\2\2\6\60\3\2\2\2\b\62\3\2\2\2\n\64\3\2"+
-		"\2\2\f\66\3\2\2\2\16=\3\2\2\2\20D\3\2\2\2\22J\3\2\2\2\24N\3\2\2\2\26P"+
-		"\3\2\2\2\30V\3\2\2\2\32X\3\2\2\2\34Z\3\2\2\2\36#\5\22\n\2\37#\5\4\3\2"+
-		" #\5\6\4\2!#\3\2\2\2\"\36\3\2\2\2\"\37\3\2\2\2\" \3\2\2\2\"!\3\2\2\2#"+
-		"\3\3\2\2\2$\'\5\6\4\2%&\7\n\2\2&(\5\6\4\2\'%\3\2\2\2()\3\2\2\2)\'\3\2"+
-		"\2\2)*\3\2\2\2*\5\3\2\2\2+\61\5\f\7\2,\61\5\20\t\2-\61\5\16\b\2.\61\5"+
-		"\b\5\2/\61\5\n\6\2\60+\3\2\2\2\60,\3\2\2\2\60-\3\2\2\2\60.\3\2\2\2\60"+
+		"\7\tG\n\t\f\t\16\tJ\13\t\3\n\3\n\3\n\3\n\3\13\3\13\3\f\3\f\3\r\3\r\3\r"+
+		"\3\r\5\rX\n\r\3\16\3\16\3\17\3\17\3\17\2\2\20\2\4\6\b\n\f\16\20\22\24"+
+		"\26\30\32\34\2\2]\2\"\3\2\2\2\4$\3\2\2\2\6\60\3\2\2\2\b\62\3\2\2\2\n\64"+
+		"\3\2\2\2\f\66\3\2\2\2\16=\3\2\2\2\20D\3\2\2\2\22K\3\2\2\2\24O\3\2\2\2"+
+		"\26Q\3\2\2\2\30W\3\2\2\2\32Y\3\2\2\2\34[\3\2\2\2\36#\5\22\n\2\37#\5\4"+
+		"\3\2 #\5\6\4\2!#\3\2\2\2\"\36\3\2\2\2\"\37\3\2\2\2\" \3\2\2\2\"!\3\2\2"+
+		"\2#\3\3\2\2\2$\'\5\6\4\2%&\7\n\2\2&(\5\6\4\2\'%\3\2\2\2()\3\2\2\2)\'\3"+
+		"\2\2\2)*\3\2\2\2*\5\3\2\2\2+\61\5\f\7\2,\61\5\20\t\2-\61\5\16\b\2.\61"+
+		"\5\b\5\2/\61\5\n\6\2\60+\3\2\2\2\60,\3\2\2\2\60-\3\2\2\2\60.\3\2\2\2\60"+
 		"/\3\2\2\2\61\7\3\2\2\2\62\63\7\7\2\2\63\t\3\2\2\2\64\65\7\b\2\2\65\13"+
 		"\3\2\2\2\66:\7\4\2\2\679\5\30\r\28\67\3\2\2\29<\3\2\2\2:8\3\2\2\2:;\3"+
 		"\2\2\2;\r\3\2\2\2<:\3\2\2\2=A\7\6\2\2>@\5\30\r\2?>\3\2\2\2@C\3\2\2\2A"+
-		"?\3\2\2\2AB\3\2\2\2B\17\3\2\2\2CA\3\2\2\2DF\7\5\2\2EG\5\30\r\2FE\3\2\2"+
-		"\2GH\3\2\2\2HF\3\2\2\2HI\3\2\2\2I\21\3\2\2\2JK\5\24\13\2KL\7\t\2\2LM\5"+
-		"\30\r\2M\23\3\2\2\2NO\7\r\2\2O\25\3\2\2\2PQ\7\16\2\2Q\27\3\2\2\2RW\5\32"+
-		"\16\2SW\5\34\17\2TW\5\26\f\2UW\5\24\13\2VR\3\2\2\2VS\3\2\2\2VT\3\2\2\2"+
-		"VU\3\2\2\2W\31\3\2\2\2XY\7\17\2\2Y\33\3\2\2\2Z[\7\20\2\2[\35\3\2\2\2\t"+
-		"\")\60:AHV";
+		"?\3\2\2\2AB\3\2\2\2B\17\3\2\2\2CA\3\2\2\2DH\7\5\2\2EG\5\30\r\2FE\3\2\2"+
+		"\2GJ\3\2\2\2HF\3\2\2\2HI\3\2\2\2I\21\3\2\2\2JH\3\2\2\2KL\5\24\13\2LM\7"+
+		"\t\2\2MN\5\30\r\2N\23\3\2\2\2OP\7\r\2\2P\25\3\2\2\2QR\7\16\2\2R\27\3\2"+
+		"\2\2SX\5\32\16\2TX\5\34\17\2UX\5\26\f\2VX\5\24\13\2WS\3\2\2\2WT\3\2\2"+
+		"\2WU\3\2\2\2WV\3\2\2\2X\31\3\2\2\2YZ\7\17\2\2Z\33\3\2\2\2[\\\7\20\2\2"+
+		"\\\35\3\2\2\2\t\")\60:AHW";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

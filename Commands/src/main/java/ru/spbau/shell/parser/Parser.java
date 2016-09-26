@@ -52,11 +52,12 @@ public class Parser {
     private static Optional<ParseTree> getParseTree(ShellGrammarParser parser) {
         Optional<ParseTree> tree = Optional.empty();
         parser.removeErrorListeners();
+        parser.setErrorHandler(new ErrorHandler());
 
         try {
             tree = Optional.of(parser.command());
         } catch (RecognitionException re) {
-            GlobalLogger.log(re.getMessage());
+            GlobalLogger.log("Command not found!\n");
         }
 
         return tree;

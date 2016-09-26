@@ -13,7 +13,6 @@ import java.util.Scanner;
  * Gets input form System.in, processes commands, returns result to output.
  */
 public class Shell {
-    private final static String EXIT_SEQUENCE = ":q";
     private final static Scanner reader = new Scanner(System.in);
     private static Optional<Shell> instance = Optional.empty();
 
@@ -29,7 +28,14 @@ public class Shell {
         for (String input = reader.nextLine(); isValidInput(input); input = reader.nextLine()) {
             Optional<ParseTree> tree = Parser.parse(input);
             ShellVisitor visitor = new ShellVisitor();
-            visitor.visit(tree.get());
+            if (tree.isPresent()) {
+                visitor.visit(tree.get());
+
+                Optional<String> result = ShellVisitor.getResult();
+                if (result.isPresent()) {
+                    System.out.println(result.get());
+                }
+            }
         }
     }
 
@@ -41,6 +47,6 @@ public class Shell {
         }
         input = input.trim();
 
-        return !(input.isEmpty() || input.equals(EXIT_SEQUENCE));
+        return !(input.isEmpty());
     }
 }

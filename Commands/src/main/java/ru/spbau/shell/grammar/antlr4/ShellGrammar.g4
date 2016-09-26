@@ -12,7 +12,7 @@ pwd         : 'pwd';
 exit        : 'exit';
 cat         : 'cat' literal*;
 wc          : 'wc' literal*;
-echo        : 'echo' literal+;
+echo        : 'echo' literal*;
 assignment  : id '=' literal;
 
 id          : ID;
