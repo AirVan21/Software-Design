@@ -2,13 +2,13 @@ package ru.spbau.shell.environment;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Class for storing environment variables
  */
 public class Environment {
     private  final Map<String, String> table = new HashMap<>();
-    private  boolean isPipe = false;
 
     public Environment() {}
 
@@ -16,15 +16,9 @@ public class Environment {
         table.putIfAbsent(key, value);
     }
 
-    public String getVariable(String key) {
-        return table.get(key);
-    }
+    public Optional<String> getVariable(String key) {
+        String result = table.get(key);
 
-    public void setPipe(boolean value) {
-        isPipe = value;
-    }
-
-    public boolean getPipe(boolean value) {
-        return isPipe;
+        return  result != null ? Optional.of(result) : Optional.empty();
     }
 }

@@ -4,15 +4,20 @@ import ru.spbau.shell.environment.Environment;
 import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarBaseVisitor;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
+import ru.spbau.shell.utility.QuotingTransformer;
 
-import java.util.Optional;
 
 /**
  * ShellVisitor is a class where is written logic for Command-Tree-Nodes
  */
 public class ShellVisitor extends ShellGrammarBaseVisitor {
     private static final Environment environment = new Environment();
-    private static final Storage     storage     = new Storage();
+    private final Storage storage;
+
+    public ShellVisitor(Storage storage) {
+        super();
+        this.storage = storage;
+    }
 
     @Override
     public Object visitPipeCmd(ShellGrammarParser.PipeCmdContext ctx) {
@@ -28,6 +33,7 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
         System.out.println("visitAssignment");
         AssignmentVisitor assignmentVisitor = new AssignmentVisitor();
         assignmentVisitor.visit(this, ctx);
+        assignmentVisitor.execute(environment, storage);
 
         return assignmentVisitor;
     }
@@ -120,14 +126,10 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
     public Object visitWeakQuoting(ShellGrammarParser.WeakQuotingContext ctx) {
         System.out.println("visitWeakQuoting");
         if (ctx.getText() != null) {
-            storage.pushArgument(ctx.getText());
+            storage.pushArgument(QuotingTransformer.transform(ctx.getText(), environment));
         }
 
         return null;
-    }
-
-    public static Optional<String> getResult() {
-         return storage.isEmpty() ? Optional.empty() : Optional.of(storage.popArgument());
     }
 }
 

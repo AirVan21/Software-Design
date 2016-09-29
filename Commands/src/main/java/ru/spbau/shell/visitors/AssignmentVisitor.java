@@ -26,8 +26,8 @@ public class AssignmentVisitor extends CommandVisitor<ShellGrammarParser.Assignm
             return false;
         }
 
+        String key = storage.popArgument();
         String value = storage.popArgument();
-        String key   = storage.popArgument();
         environment.setVariable(key, value);
 
         return true;

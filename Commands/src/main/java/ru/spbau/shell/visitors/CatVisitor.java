@@ -25,6 +25,9 @@ public class CatVisitor extends CommandVisitor<ShellGrammarParser.CatContext> im
             return false;
         }
 
+        String fileName = storage.popArgument();
+
+
         return true;
     }
 
