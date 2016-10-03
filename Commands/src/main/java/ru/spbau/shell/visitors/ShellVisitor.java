@@ -4,7 +4,10 @@ import ru.spbau.shell.environment.Environment;
 import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarBaseVisitor;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
+import ru.spbau.shell.utility.GlobalLogger;
 import ru.spbau.shell.utility.QuotingTransformer;
+
+import java.util.Optional;
 
 
 /**
@@ -126,7 +129,13 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
     public Object visitWeakQuoting(ShellGrammarParser.WeakQuotingContext ctx) {
         System.out.println("visitWeakQuoting");
         if (ctx.getText() != null) {
-            storage.pushArgument(QuotingTransformer.transform(ctx.getText(), environment));
+            // TODO: refactor
+            Optional<String> result = QuotingTransformer.transformWeakQuoting(ctx.getText(), environment);
+            if (result.isPresent()) {
+                storage.pushArgument(result.get());
+            } else {
+                GlobalLogger.log("Wrong transformation for Weak Quoting!");
+            }
         }
 
         return null;
