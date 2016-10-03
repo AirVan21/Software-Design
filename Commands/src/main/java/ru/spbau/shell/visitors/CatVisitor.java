@@ -5,18 +5,18 @@ import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
 import ru.spbau.shell.interfaces.IExecutable;
 import ru.spbau.shell.interfaces.IHelper;
+import ru.spbau.shell.manual.ManualItem;
+import ru.spbau.shell.utility.FileManager;
+
+import java.io.File;
+import java.util.Optional;
 
 /**
  * CatVisitor class is a visitor for Cat command
  */
 public class CatVisitor extends CommandVisitor<ShellGrammarParser.CatContext> implements IExecutable, IHelper {
     public CatVisitor() {
-        super(1);
-    }
-
-    @Override
-    public String getHelp() {
-        return "";
+        super(1, ManualItem.CAT_MAN);
     }
 
     @Override
@@ -26,12 +26,17 @@ public class CatVisitor extends CommandVisitor<ShellGrammarParser.CatContext> im
         }
 
         String fileName = storage.popArgument();
+        Optional<File> file = FileManager.getFile(fileName);
+        if (!file.isPresent()) {
+            return false;
+        }
 
+        Optional<String> text = FileManager.readFile(file.get());
+        if (!text.isPresent()) {
+            return false;
+        }
+        storage.pushArgument(text.get());
 
         return true;
-    }
-
-    private String getFile() {
-        return "";
     }
 }

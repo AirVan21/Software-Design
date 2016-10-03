@@ -5,21 +5,17 @@ import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
 import ru.spbau.shell.interfaces.IExecutable;
 import ru.spbau.shell.interfaces.IHelper;
+import ru.spbau.shell.manual.ManualItem;
 
 
 /**
  * ExitVisitor class is a visitor class for Exit operation
  */
 public class ExitVisitor extends CommandVisitor<ShellGrammarParser.ExitContext> implements IExecutable, IHelper {
-    private static int EXIT_VALUE = 0;
+    private static final int EXIT_VALUE = 0;
 
     public ExitVisitor() {
-        super(0);
-    }
-
-    @Override
-    public String getHelp() {
-        return "";
+        super(0, ManualItem.EXIT_MAN);
     }
 
     @Override
