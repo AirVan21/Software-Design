@@ -1,6 +1,8 @@
 package ru.spbau.shell.visitors;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import ru.spbau.shell.environment.Environment;
+import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarVisitor;
 import ru.spbau.shell.interfaces.IHelper;
 import ru.spbau.shell.manual.ManualItem;
@@ -17,6 +19,20 @@ abstract public class CommandVisitor<Context extends ParserRuleContext> implemen
         description = item;
     }
 
+    /**
+     * Executes command logic
+     * @param environment - set of environment variables
+     * @param storage - result taker/saver object
+     * @return true  - if command execution was successful
+     *         false - otherwise
+     */
+    abstract boolean execute(Environment environment, Storage storage);
+
+    /**
+     * Visits subcommands (deeper in tree hierarchy)
+     * @param visitor - visiting class
+     * @param context - context, truly
+     */
     public void visit(ShellGrammarVisitor visitor, Context context) {
         visitor.visitChildren(context);
     }

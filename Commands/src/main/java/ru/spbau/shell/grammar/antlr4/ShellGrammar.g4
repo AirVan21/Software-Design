@@ -6,7 +6,7 @@ grammar ShellGrammar;
 
 command     : assignment | pipeCmd | simpleCmd |;
 pipeCmd     : simpleCmd ('|' simpleCmd)+ ;
-simpleCmd   : cat | echo | wc | pwd | exit ;
+simpleCmd   : cat | echo | wc | pwd | exit | process ;
 
 pwd         : 'pwd';
 exit        : 'exit';
@@ -14,6 +14,7 @@ cat         : 'cat' literal*;
 wc          : 'wc' literal*;
 echo        : 'echo' literal*;
 assignment  : id '=' literal;
+process     : literal+;
 
 id          : ID;
 variable    : VAR_ID;

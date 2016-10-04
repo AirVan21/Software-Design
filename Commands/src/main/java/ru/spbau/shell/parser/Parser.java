@@ -15,22 +15,32 @@ import java.util.Optional;
 
 
 /**
- * Created by airvan21 on 25.09.16.
+ * Parser class is used to wrap ANTLR4 logic in convenient to use code
  */
 public class Parser {
-    public static Optional<ParseTree> parse(String string) {
-        Optional<ANTLRInputStream> is = getInputStream(string);
+    /**
+     * Parses source string
+     * @param source - input string
+     * @return ParseTree for input
+     */
+    public static Optional<ParseTree> parse(String source) {
+        final Optional<ANTLRInputStream> is = getInputStream(source);
         if (!is.isPresent()) {
             return Optional.empty();
         }
 
-        ShellGrammarParser parser = getParser(is.get());
+        final ShellGrammarParser parser = getParser(is.get());
 
         return getParseTree(parser);
     }
 
-    private static Optional<ANTLRInputStream> getInputStream(String string) {
-        InputStream is = new ByteArrayInputStream(string.getBytes());
+    /**
+     * Transforms string in ANTLRInputStream
+     * @param source - input string
+     * @return ANTLERInputStream for source string
+     */
+    private static Optional<ANTLRInputStream> getInputStream(String source) {
+        final InputStream is = new ByteArrayInputStream(source.getBytes());
         ANTLRInputStream stream;
         try {
             stream = new ANTLRInputStream(is);
@@ -42,13 +52,23 @@ public class Parser {
         return Optional.of(stream);
     }
 
+    /**
+     * Transforms ANTLRInputStream in ShellGrammarParser
+     * @param is - ANTLRInputStream
+     * @return shell grammar parser
+     */
     private static ShellGrammarParser getParser(ANTLRInputStream is) {
-        ShellGrammarLexer lexer = new ShellGrammarLexer(is);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        final ShellGrammarLexer lexer = new ShellGrammarLexer(is);
+        final CommonTokenStream tokens = new CommonTokenStream(lexer);
 
         return new ShellGrammarParser(tokens);
     }
 
+    /**
+     * Transforms ShellGrammarParser in ParseTree
+     * @param parser - parser
+     * @return ParseTree for input parser
+     */
     private static Optional<ParseTree> getParseTree(ShellGrammarParser parser) {
         Optional<ParseTree> tree = Optional.empty();
         parser.removeErrorListeners();

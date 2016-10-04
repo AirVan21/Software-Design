@@ -3,8 +3,6 @@ package ru.spbau.shell.visitors;
 import ru.spbau.shell.environment.Environment;
 import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
-import ru.spbau.shell.interfaces.IExecutable;
-import ru.spbau.shell.interfaces.IHelper;
 import ru.spbau.shell.manual.ManualItem;
 import ru.spbau.shell.utility.FileManager;
 
@@ -14,7 +12,7 @@ import java.util.Optional;
 /**
  * CatVisitor class is a visitor for Cat command
  */
-public class CatVisitor extends CommandVisitor<ShellGrammarParser.CatContext> implements IExecutable, IHelper {
+public class CatVisitor extends CommandVisitor<ShellGrammarParser.CatContext> {
     public CatVisitor() {
         super(1, ManualItem.CAT_MAN);
     }

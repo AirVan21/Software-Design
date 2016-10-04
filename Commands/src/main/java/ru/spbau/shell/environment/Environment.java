@@ -11,7 +11,7 @@ public class Environment {
     /**
      * Stores key to value mapping
      */
-    private  final Map<String, String> table = new HashMap<>();
+    private final Map<String, String> table = new HashMap<>();
 
     public Environment() {}
 

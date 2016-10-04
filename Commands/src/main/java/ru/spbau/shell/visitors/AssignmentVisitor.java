@@ -3,14 +3,12 @@ package ru.spbau.shell.visitors;
 import ru.spbau.shell.environment.Environment;
 import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
-import ru.spbau.shell.interfaces.IExecutable;
-import ru.spbau.shell.interfaces.IHelper;
 import ru.spbau.shell.manual.ManualItem;
 
 /**
  * AssignmentVisitor class is a visitor class for Assignment operation
  */
-public class AssignmentVisitor extends CommandVisitor<ShellGrammarParser.AssignmentContext> implements IExecutable, IHelper {
+public class AssignmentVisitor extends CommandVisitor<ShellGrammarParser.AssignmentContext> {
     public AssignmentVisitor() {
         super(2, ManualItem.ASSIGNMENT_MAN);
     }

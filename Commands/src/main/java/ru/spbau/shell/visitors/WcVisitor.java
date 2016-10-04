@@ -3,17 +3,14 @@ package ru.spbau.shell.visitors;
 import ru.spbau.shell.environment.Environment;
 import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
-import ru.spbau.shell.interfaces.IExecutable;
 import ru.spbau.shell.manual.ManualItem;
 
-import java.io.LineNumberReader;
-import java.io.StringReader;
 import java.util.StringTokenizer;
 
 /**
  * WcVisitor class is a visitor for Wc command
  */
-public class WcVisitor extends CommandVisitor<ShellGrammarParser.WcContext> implements IExecutable {
+public class WcVisitor extends CommandVisitor<ShellGrammarParser.WcContext> {
 
     public WcVisitor() {
         super(1, ManualItem.WC_MAN);
@@ -33,16 +30,16 @@ public class WcVisitor extends CommandVisitor<ShellGrammarParser.WcContext> impl
         return true;
     }
 
-    // TODO: replace this code with another
     /**
      * Gets amount of lines in the input string
      * @param input - source string
      * @return amount of lines
      */
     private int getAmountOfLines(String input) {
-        LineNumberReader lnr = new LineNumberReader(new StringReader(input));
+        final String regexForNewlines = "\r\n|\r|\n";
+        String[] lines = input.split(regexForNewlines);
 
-        return lnr.getLineNumber() + 1;
+        return lines.length;
     }
 
     /**

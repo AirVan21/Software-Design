@@ -3,8 +3,10 @@ package ru.spbau.shell;
 import org.antlr.v4.runtime.tree.ParseTree;
 import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.parser.Parser;
+import ru.spbau.shell.utility.GlobalLogger;
 import ru.spbau.shell.visitors.ShellVisitor;
 
+import java.security.InvalidParameterException;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -14,7 +16,13 @@ import java.util.Scanner;
  * Gets input form System.in, processes commands, returns result to output.
  */
 public class Shell {
-    private final static Scanner reader = new Scanner(System.in);
+    /**
+     * Handles user input
+     */
+    private final static Scanner READER = new Scanner(System.in);
+    /**
+     * Singleton instance carrier
+     */
     private static Optional<Shell> instance = Optional.empty();
 
     /**
@@ -33,32 +41,63 @@ public class Shell {
      * Starts REPL
      */
     public void run() {
-        for (String input = reader.nextLine(); isValidInput(input); input = reader.nextLine()) {
-            final Optional<ParseTree> tree = Parser.parse(input);
-            final Storage storage = new Storage();
-            final ShellVisitor visitor = new ShellVisitor(storage);
-            Optional<String> result = getResult(tree, visitor, storage);
+        for (String input = READER.nextLine(); isValidInput(input); input = READER.nextLine()) {
+            Optional<String> result = handleInputLine(input);
+            if (result.isPresent()) {
+                System.out.println(result.get());
+            }
         }
+    }
+
+    /**
+     * Executes one command (method is public for convenient testing)
+     * @param input - source line with commands
+     * @return commands output
+     */
+    public Optional<String> handleInputLine(String input) {
+        final Optional<ParseTree> tree = Parser.parse(input);
+        final Storage storage = new Storage();
+        final ShellVisitor visitor = new ShellVisitor(storage);
+        processTree(tree, visitor);
+
+        return storage.isEmpty() ? Optional.empty() : Optional.of(storage.popArgument());
     }
 
     private Shell() {}
 
-    private static boolean isValidInput(String input) {
-        if (input == null) {
+    /**
+     * Checks if string is acceptable for processing
+     * @param source input string
+     * @return true  - input is valid
+     *         false - input is valid
+     */
+    private static boolean isValidInput(String source) {
+        if (source == null) {
             return false;
         }
-        input = input.trim();
+        source = source.trim();
 
-        return !(input.isEmpty());
+        return !(source.isEmpty());
     }
 
-    private static Optional<String> getResult(Optional<ParseTree> tree, ShellVisitor visitor, Storage storage) {
+    /**
+     * Executes ANTLR4 Parse Tree visiting (including command execution)
+     * @param tree - tree built for input string
+     * @param visitor - class with logic for search
+     * @return true  - correct visiting
+     *         false - visiting with errors
+     */
+    private static boolean processTree(Optional<ParseTree> tree, ShellVisitor visitor) {
+        boolean isSuccessful = true;
         if (tree.isPresent()) {
-            visitor.visit(tree.get());
-            if (storage.getSize() == 1) {
-                System.out.println(storage.popArgument());
+            try {
+                visitor.visit(tree.get());
+            } catch (InvalidParameterException exc) {
+                GlobalLogger.log("Command couldn't be performed!");
+                isSuccessful = false;
             }
         }
-        return Optional.empty();
+
+        return isSuccessful;
     }
 }
