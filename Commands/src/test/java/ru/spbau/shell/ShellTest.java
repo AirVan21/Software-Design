@@ -64,7 +64,7 @@ public class ShellTest {
     }
 
     @Test
-    public void testVariable() {
+    public void testWeakQuotes() {
         final String key = "user";
         final String value = "jake";
 
@@ -76,5 +76,30 @@ public class ShellTest {
         result = shell.handleInputLine(line);
         assertTrue(result.isPresent());
         assertEquals(value, result.get());
+    }
+
+    @Test
+    public void testFullQuotes() {
+        final String key = "user";
+        final String value = "jake";
+
+        String line =  key + " = " + value;
+        Optional<String> result = shell.handleInputLine(line);
+        assertFalse(result.isPresent());
+
+        line = "echo '$user'";
+        result = shell.handleInputLine(line);
+        assertTrue(result.isPresent());
+        assertEquals("$user", result.get());
+    }
+
+    @Test
+    public void testPipe() {
+        final String content = "\"mad mad world\"";
+        final String line = "echo " + content + " | wc";
+        final Optional<String> result = shell.handleInputLine(line);
+
+        assertTrue(result.isPresent());
+        assertEquals("1 3 13", result.get());
     }
 }

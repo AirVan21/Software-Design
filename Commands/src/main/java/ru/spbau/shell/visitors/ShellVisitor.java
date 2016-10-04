@@ -119,7 +119,12 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitFullQuoting(ShellGrammarParser.FullQuotingContext ctx) {
-        visitArgument(ctx.getText());
+        if (ctx.getText() != null) {
+            Optional<String> result = QuotingTransformer.transformFullQuoting(ctx.getText());
+            if (result.isPresent()) {
+                storage.pushArgument(result.get());
+            }
+        }
 
         return null;
     }
