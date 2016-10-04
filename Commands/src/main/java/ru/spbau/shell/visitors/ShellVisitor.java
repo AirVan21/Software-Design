@@ -33,7 +33,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitPipeCmd(ShellGrammarParser.PipeCmdContext ctx) {
-        System.out.println("visitPipeCmd");
         PipeVisitor pipeVisitor = new PipeVisitor();
         pipeVisitor.visit(this, ctx);
 
@@ -42,7 +41,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitAssignment(ShellGrammarParser.AssignmentContext ctx) throws InvalidParameterException {
-        System.out.println("visitAssignment");
         AssignmentVisitor assignmentVisitor = new AssignmentVisitor();
         visitCommand(assignmentVisitor, ctx);
 
@@ -52,7 +50,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitCat(ShellGrammarParser.CatContext ctx) {
-        System.out.println("visitCat");
         CatVisitor catVisitor = new CatVisitor();
         visitCommand(catVisitor, ctx);
 
@@ -61,7 +58,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitWc(ShellGrammarParser.WcContext ctx) {
-        System.out.println("visitWc");
         WcVisitor wcVisitor = new WcVisitor();
         visitCommand(wcVisitor, ctx);
 
@@ -70,7 +66,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitEcho(ShellGrammarParser.EchoContext ctx) {
-        System.out.println("visitEcho");
         EchoVisitor echoVisitor = new EchoVisitor();
         visitCommand(echoVisitor, ctx);
 
@@ -79,7 +74,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitPwd(ShellGrammarParser.PwdContext ctx) {
-        System.out.println("visitPwd");
         PwdVisitor pwdVisitor = new PwdVisitor();
         visitCommand(pwdVisitor, ctx);
 
@@ -88,7 +82,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitExit(ShellGrammarParser.ExitContext ctx) {
-        System.out.println("visitExit");
         ExitVisitor exitVisitor = new ExitVisitor();
         visitCommand(exitVisitor, ctx);
 
@@ -97,7 +90,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitProcess(ShellGrammarParser.ProcessContext ctx) {
-        System.out.println("visitProcess");
         final boolean nonRecursive = false;
         Set<String> fileNames = FileManager.listFiles(FileManager.getPath(), nonRecursive);
 
@@ -106,7 +98,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitId(ShellGrammarParser.IdContext ctx) {
-        System.out.println("visitId");
         visitArgument(ctx.getText());
 
         return null;
@@ -114,7 +105,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitVariable(ShellGrammarParser.VariableContext ctx) {
-        System.out.println("visitVariable");
         if (ctx.getText() != null) {
             String variable = ctx.getText();
             String key = variable.substring(variable.indexOf("$") + 1);
@@ -129,7 +119,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitFullQuoting(ShellGrammarParser.FullQuotingContext ctx) {
-        System.out.println("visitFullQuoting");
         visitArgument(ctx.getText());
 
         return null;
@@ -137,7 +126,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitWeakQuoting(ShellGrammarParser.WeakQuotingContext ctx) {
-        System.out.println("visitWeakQuoting");
         if (ctx.getText() != null) {
             Optional<String> result = QuotingTransformer.transformWeakQuoting(ctx.getText(), environment);
             if (result.isPresent()) {
