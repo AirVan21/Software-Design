@@ -30,7 +30,7 @@ public class WcVisitor extends CommandVisitor<ShellGrammarParser.WcContext> impl
                 + String.valueOf(getAmountOfWords(source)) + " " + getAmountOfBytes(source);
         storage.pushArgument(result);
 
-        return false;
+        return true;
     }
 
     // TODO: replace this code with another

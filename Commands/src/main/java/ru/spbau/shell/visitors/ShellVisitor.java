@@ -7,6 +7,7 @@ import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
 import ru.spbau.shell.utility.GlobalLogger;
 import ru.spbau.shell.utility.QuotingTransformer;
 
+import java.security.InvalidParameterException;
 import java.util.Optional;
 
 
@@ -32,11 +33,15 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
     }
 
     @Override
-    public Object visitAssignment(ShellGrammarParser.AssignmentContext ctx) {
+    public Object visitAssignment(ShellGrammarParser.AssignmentContext ctx) throws InvalidParameterException {
         System.out.println("visitAssignment");
         AssignmentVisitor assignmentVisitor = new AssignmentVisitor();
         assignmentVisitor.visit(this, ctx);
-        assignmentVisitor.execute(environment, storage);
+        if (!assignmentVisitor.execute(environment, storage)) {
+            storage.clear();
+            storage.pushArgument(assignmentVisitor.getHelp());
+            throw new InvalidParameterException();
+        }
 
         return assignmentVisitor;
     }
@@ -46,7 +51,11 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
         System.out.println("visitCat");
         CatVisitor catVisitor = new CatVisitor();
         catVisitor.visit(this, ctx);
-        catVisitor.execute(environment, storage);
+        if (!catVisitor.execute(environment, storage)) {
+            storage.clear();
+            storage.pushArgument(catVisitor.getHelp());
+            throw new InvalidParameterException();
+        }
 
         return catVisitor;
     }
@@ -56,7 +65,11 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
         System.out.println("visitWc");
         WcVisitor wcVisitor = new WcVisitor();
         wcVisitor.visit(this, ctx);
-        wcVisitor.execute(environment, storage);
+        if (!wcVisitor.execute(environment, storage)) {
+            storage.clear();
+            storage.pushArgument(wcVisitor.getHelp());
+            throw new InvalidParameterException();
+        }
 
         return wcVisitor;
     }
@@ -66,7 +79,11 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
         System.out.println("visitEcho");
         EchoVisitor echoVisitor = new EchoVisitor();
         echoVisitor.visit(this, ctx);
-        echoVisitor.execute(environment, storage);
+        if (!echoVisitor.execute(environment, storage)) {
+            storage.clear();
+            storage.pushArgument(echoVisitor.getHelp());
+            throw new InvalidParameterException();
+        }
 
         return echoVisitor;
     }
@@ -76,7 +93,11 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
         System.out.println("visitPwd");
         PwdVisitor pwdVisitor = new PwdVisitor();
         pwdVisitor.visit(this, ctx);
-        pwdVisitor.execute(environment, storage);
+        if (!pwdVisitor.execute(environment, storage)) {
+            storage.clear();
+            storage.pushArgument(pwdVisitor.getHelp());
+            throw new InvalidParameterException();
+        }
 
         return pwdVisitor;
     }
@@ -86,7 +107,11 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
         System.out.println("visitExit");
         ExitVisitor exitVisitor = new ExitVisitor();
         exitVisitor.visit(this, ctx);
-        exitVisitor.execute(environment, storage);
+        if (!exitVisitor.execute(environment, storage)) {
+            storage.clear();
+            storage.pushArgument(exitVisitor.getHelp());
+            throw new InvalidParameterException();
+        }
 
         return exitVisitor;
     }
@@ -141,5 +166,3 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
         return null;
     }
 }
-
-

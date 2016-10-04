@@ -24,6 +24,10 @@ public class Storage {
     }
 
     public boolean isEmpty() {
-        return storage.size() == 0;
+        return storage.isEmpty();
+    }
+
+    public void clear() {
+        storage.clear();
     }
 }

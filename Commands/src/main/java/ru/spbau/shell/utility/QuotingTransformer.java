@@ -29,6 +29,7 @@ public class QuotingTransformer {
         if (!content.isPresent()) {
             return Optional.empty();
         }
+        source = content.get();
 
         StringBuilder sb = new StringBuilder();
         source = source.trim();
