@@ -6,7 +6,7 @@
 
     1. Clone repo
     2. Open project in Intellij IDEA
-    3. Install [ANTLR v4 grammar plugin] (https://plugins.jetbrains.com/plugin/7358?pr=)
+    3. Install [ANTLR v4 grammar plugin](https://plugins.jetbrains.com/plugin/7358)
     4. Open ShellGrammar.g4 file (grammar file)
     5. Configure ANTLRv4 (right click menu)
     6. Choose "generate parse tree visitor"
