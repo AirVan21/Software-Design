@@ -3,6 +3,8 @@ package ru.spbau.shell.visitors;
 import org.antlr.v4.runtime.ParserRuleContext;
 import ru.spbau.shell.environment.Environment;
 import ru.spbau.shell.environment.Storage;
+import ru.spbau.shell.exceptions.WrongArgumentsException;
+import ru.spbau.shell.exceptions.WrongCommandException;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarBaseVisitor;
 import ru.spbau.shell.grammar.antlr4.ShellGrammarParser;
 import ru.spbau.shell.utility.FileManager;
@@ -89,9 +91,14 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
     }
 
     @Override
-    public Object visitProcess(ShellGrammarParser.ProcessContext ctx) {
+    public Object visitProcess(ShellGrammarParser.ProcessContext ctx) throws WrongCommandException {
         final boolean nonRecursive = false;
         Set<String> fileNames = FileManager.listFiles(FileManager.getPath(), nonRecursive);
+        if (ctx.getText() == null || !fileNames.contains(ctx.getText())) {
+            throw new WrongCommandException("Wrong command!");
+        }
+        ProcessVisitor processVisitor = new ProcessVisitor();
+        visitCommand(processVisitor, ctx);
 
         return null;
     }
@@ -160,13 +167,13 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
      * @param visitor - visitors class for specific command
      * @param ctx - context for specific command
      */
-    private <Context extends ParserRuleContext> void visitCommand(CommandVisitor<Context> visitor, Context ctx) {
+    private <Context extends ParserRuleContext> void visitCommand(CommandVisitor<Context> visitor, Context ctx) throws WrongArgumentsException {
         visitor.visit(this, ctx);
         if (!visitor.execute(environment, storage)) {
             storage.clear();
             storage.pushArgument(visitor.getHelp());
 
-            throw new InvalidParameterException();
+            throw new WrongArgumentsException("Wrong arguments!");
         }
     }
 }

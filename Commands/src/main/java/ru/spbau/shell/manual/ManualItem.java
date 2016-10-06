@@ -11,6 +11,7 @@ public enum ManualItem {
     , PWD_MAN("pwd - print name of current/working directory\npwd [OPTION]")
     , ASSIGNMENT_MAN("Assignment operation example:\nkey = value")
     , PIPE_MAN("pipe - command for chaining")
+    , PROCESS_MAN("process - this is your external command")
     ;
 
     /**
