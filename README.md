@@ -32,3 +32,7 @@ Run ```mvn install``` in root directory
 
 
    Shell class is a main class which implements REPL functionality. After user input Shell class constructs ANTLRv4       ParseTree via Parser class for handled input and runs visiting ParseTree using ShellVisitor class. Shell visitor class gets Storage class for result-saving logic (Storage class is unique per input line) and Shell visitor creates Environment class (for storing environment variables) for a whole REPL session. CommandVisitor's successors are visited (if needed) and line exectution result is stored in Storage class. 
+   
+## Development process:
+
+[Shell on Pivotal Tracker](https://www.pivotaltracker.com/n/projects/1889483)
