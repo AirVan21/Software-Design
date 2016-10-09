@@ -53,4 +53,12 @@ public class Storage {
     public void clear() {
         storage.clear();
     }
+
+    /**
+     * Gets storage content
+     * @return array of result strings
+     */
+    public String[] getRawContent() {
+        return storage.toArray(new String[getSize()]);
+    }
 }

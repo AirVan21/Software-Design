@@ -3,6 +3,7 @@ package ru.spbau.shell;
 import org.antlr.v4.runtime.tree.ParseTree;
 import ru.spbau.shell.environment.Storage;
 import ru.spbau.shell.exceptions.WrongArgumentsException;
+import ru.spbau.shell.exceptions.WrongCommandException;
 import ru.spbau.shell.parser.Parser;
 import ru.spbau.shell.utility.GlobalLogger;
 import ru.spbau.shell.visitors.ShellVisitor;
@@ -95,6 +96,9 @@ public class Shell {
                 visitor.visit(tree.get());
             } catch (WrongArgumentsException exc) {
                 GlobalLogger.log("Command couldn't be performed!");
+                isSuccessful = false;
+            } catch (WrongCommandException exc) {
+                GlobalLogger.log("Wrong command!");
                 isSuccessful = false;
             }
         }

@@ -5,6 +5,8 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -58,5 +60,15 @@ public class FileManager {
         }
 
         return Optional.of(result);
+    }
+
+    /**
+     * Reads file and splits it on lines
+     * @param text file content
+     * @return file lines
+     */
+    public static List<String> getLinesFromText(String text) {
+        final String regexForNewlines = "\r\n|\r|\n";
+        return Arrays.asList(text.split(regexForNewlines));
     }
 }

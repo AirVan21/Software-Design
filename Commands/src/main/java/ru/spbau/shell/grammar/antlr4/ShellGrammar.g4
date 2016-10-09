@@ -6,7 +6,7 @@ grammar ShellGrammar;
 
 command     : assignment | pipeCmd | simpleCmd |;
 pipeCmd     : simpleCmd ('|' simpleCmd)+ ;
-simpleCmd   : cat | echo | wc | pwd | exit | process ;
+simpleCmd   : cat | echo | wc | pwd | exit | grep | process ;
 
 pwd         : 'pwd';
 exit        : 'exit';
