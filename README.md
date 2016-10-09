@@ -25,3 +25,7 @@ Run ```mvn install``` in root directory
    * key = value (environment variables)
    * $ and |
    * full and weak quoting
+
+## Architecture:
+Class Diagram draft:
+![UML Class Diagram](Software-Design/Commands/diagram/ClassDiagram.png)
