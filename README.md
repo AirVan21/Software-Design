@@ -27,5 +27,4 @@ Run ```mvn install``` in root directory
    * full and weak quoting
 
 ## Architecture:
-Class Diagram draft:
-![UML Class Diagram](Software-Design/Commands/diagram/ClassDiagram.png)
+![UML Class Diagram](https://raw.githubusercontent.com/AirVan21/Software-Design/shell/Commands/diagram/ClassDiagram.png)
