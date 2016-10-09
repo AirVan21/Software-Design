@@ -12,6 +12,10 @@ public enum ManualItem {
     , ASSIGNMENT_MAN("Assignment operation example:\nkey = value")
     , PIPE_MAN("pipe - command for chaining")
     , PROCESS_MAN("process - this is your external command")
+    , GREP_MAN("grep searches the named input FILEs for lines containing a match to the given PATTERN" +
+            "\n     -i, ignore case distinctions in both the PATTERN and the input files" +
+            "\n     -w, select only those lines containing matches that form whole words" +
+            "\n     -A NUM, print NUM lines of trailing context after matching lines")
     ;
 
     /**

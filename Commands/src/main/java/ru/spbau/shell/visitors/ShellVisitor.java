@@ -74,6 +74,7 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
         return echoVisitor;
     }
 
+
     @Override
     public Object visitPwd(ShellGrammarParser.PwdContext ctx) {
         PwdVisitor pwdVisitor = new PwdVisitor();
@@ -101,6 +102,14 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
         visitCommand(processVisitor, ctx);
 
         return null;
+    }
+
+    @Override
+    public Object visitGrep(ShellGrammarParser.GrepContext ctx) {
+        GrepVisitor grepVisitor = new GrepVisitor();
+        visitCommand(grepVisitor, ctx);
+
+        return grepVisitor;
     }
 
     @Override

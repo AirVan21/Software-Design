@@ -13,6 +13,7 @@ exit        : 'exit';
 cat         : 'cat' literal*;
 wc          : 'wc' literal*;
 echo        : 'echo' literal*;
+grep        : 'grep' literal+;
 assignment  : id '=' literal;
 process     : literal+;
 
