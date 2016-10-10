@@ -106,7 +106,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
 
     @Override
     public Object visitGrep(ShellGrammarParser.GrepContext ctx) {
-        System.out.println("grepCommand");
         GrepVisitor grepVisitor = new GrepVisitor();
         visitCommand(grepVisitor, ctx);
 

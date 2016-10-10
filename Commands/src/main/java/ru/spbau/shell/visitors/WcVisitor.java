@@ -35,7 +35,7 @@ public class WcVisitor extends CommandVisitor<ShellGrammarParser.WcContext> {
      * @param input - source string
      * @return amount of lines
      */
-    private int getAmountOfLines(String input) {
+    private static int getAmountOfLines(String input) {
         final String regexForNewlines = "\r\n|\r|\n";
         String[] lines = input.split(regexForNewlines);
 
@@ -47,7 +47,7 @@ public class WcVisitor extends CommandVisitor<ShellGrammarParser.WcContext> {
      * @param input - source string
      * @return amount of words
      */
-    private int getAmountOfWords(String input) {
+    private static int getAmountOfWords(String input) {
         StringTokenizer st = new StringTokenizer(input);
 
         return st.countTokens();
@@ -58,7 +58,7 @@ public class WcVisitor extends CommandVisitor<ShellGrammarParser.WcContext> {
      * @param input - source string
      * @return amount of bytes
      */
-    private int getAmountOfBytes(String input) {
+    private static int getAmountOfBytes(String input) {
         return input.getBytes().length;
     }
 }

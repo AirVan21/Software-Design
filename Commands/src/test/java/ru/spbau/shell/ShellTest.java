@@ -1,9 +1,14 @@
 package ru.spbau.shell;
 
+import org.junit.Before;
 import org.junit.Test;
 import ru.spbau.shell.utility.FileManager;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -13,6 +18,17 @@ import static org.junit.Assert.*;
  */
 public class ShellTest {
     private final Shell shell = Shell.getInstance();
+
+    /**
+     * Text itself
+     */
+    // hello everyone
+    // one world
+    // mad world one
+    // test test
+    // code
+    private final String FILE_NAME = "src/test/resources/test.txt";
+
 
     @Test
     public void testCat()  {
@@ -101,5 +117,15 @@ public class ShellTest {
 
         assertTrue(result.isPresent());
         assertEquals("1 3 13", result.get());
+    }
+
+    @Test
+    public void testSimpleGrep() {
+        final String line = "grep \"one\" " + FILE_NAME;
+
+        final Optional<String> result = shell.handleInputLine(line);
+        assertTrue(result.isPresent());
+        final List<String> lines = FileManager.getLinesFromText(result.get());
+        lines.forEach(item -> assertTrue(item.contains("one")));
     }
 }

@@ -57,7 +57,12 @@ public class GrepVisitor extends CommandVisitor<ShellGrammarParser.GrepContext> 
         Optional<File> searchFile = FileManager.getFile(searchFileName);
         String searchSource = searchFileName;
         if (searchFile.isPresent()) {
-            searchSource = FileManager.readFile(searchFile.get()).get();
+            Optional<String> content = FileManager.readFile(searchFile.get());
+            if (content.isPresent()) {
+                searchSource = content.get();
+            } else {
+                return false;
+            }
         }
         final List<String> searchLines = FileManager.getLinesFromText(searchSource);
         final String result = processInput(line, searchLines);
@@ -113,7 +118,6 @@ public class GrepVisitor extends CommandVisitor<ShellGrammarParser.GrepContext> 
                 for (int j = i; j < trailingLinesNum + i && j < source.size(); j++) {
                     sb.append(source.get(j) + "\n");
                 }
-                sb.append("\n");
             }
         }
 
