@@ -84,6 +84,12 @@ public class GrepVisitor extends CommandVisitor<ShellGrammarParser.GrepContext> 
         return options;
     }
 
+    /**
+     * Using CommandLine object finds pattern matches in source
+     * @param line - objects which describes grep query
+     * @param source - lines which should be matched
+     * @return matched lines
+     */
     private String processInput(CommandLine line, List<String> source) {
         String stringPattern = line.getArgList().remove(line.getArgList().size() - 1);
         boolean hasIgnoreCase = false;

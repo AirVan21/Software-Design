@@ -1,13 +1,9 @@
 package ru.spbau.shell;
 
-import org.junit.Before;
 import org.junit.Test;
 import ru.spbau.shell.utility.FileManager;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,6 +122,55 @@ public class ShellTest {
         final Optional<String> result = shell.handleInputLine(line);
         assertTrue(result.isPresent());
         final List<String> lines = FileManager.getLinesFromText(result.get());
+        assertEquals("hello everyone", lines.get(0));
         lines.forEach(item -> assertTrue(item.contains("one")));
+    }
+
+    @Test
+    public void testInsensitiveGrep() {
+        final String line = "grep -i \"oNe\" " + FILE_NAME;
+        final int RESULT_SIZE = 3;
+
+        final Optional<String> result = shell.handleInputLine(line);
+        assertTrue(result.isPresent());
+        final List<String> lines = FileManager.getLinesFromText(result.get());
+        assertEquals(RESULT_SIZE, lines.size());
+        assertEquals("hello everyone", lines.get(0));
+        lines.forEach(item -> assertTrue(item.toLowerCase().contains("one")));
+    }
+
+    @Test
+    public void testWordGrep() {
+        final String line = "grep -i -w \"oNe\" " + FILE_NAME;
+        final int RESULT_SIZE = 2;
+
+        final Optional<String> result = shell.handleInputLine(line);
+        assertTrue(result.isPresent());
+        final List<String> lines = FileManager.getLinesFromText(result.get());
+        assertEquals(RESULT_SIZE, lines.size());
+        assertEquals("one world", lines.get(0));
+        lines.forEach(item -> assertTrue(item.toLowerCase().contains("one")));
+    }
+
+    @Test
+    public void testAfterGrep() {
+        final String line = "grep -i -w -A 3 \"test\" " + FILE_NAME;
+        // one match, one trailing line (because file end)
+        final int RESULT_SIZE = 2;
+
+        final Optional<String> result = shell.handleInputLine(line);
+        assertTrue(result.isPresent());
+        final List<String> lines = FileManager.getLinesFromText(result.get());
+        assertEquals(RESULT_SIZE, lines.size());
+        assertEquals("test test", lines.get(0));
+    }
+
+    @Test
+    public void pipedGrep() {
+        final String line = "grep -i \"oNe\" " + FILE_NAME + " | wc";
+
+        final Optional<String> result = shell.handleInputLine(line);
+        assertTrue(result.isPresent());
+        assertEquals("3 7 39", result.get());
     }
 }
