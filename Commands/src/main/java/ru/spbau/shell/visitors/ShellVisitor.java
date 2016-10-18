@@ -49,7 +49,6 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
         return assignmentVisitor;
     }
 
-
     @Override
     public Object visitCat(ShellGrammarParser.CatContext ctx) {
         CatVisitor catVisitor = new CatVisitor();
