@@ -23,6 +23,12 @@ public class FileManager {
         return System.getProperty("user.dir");
     }
 
+    /**
+     * Returns all unique file paths in dir
+     * @param path dir for digging
+     * @param isRecursive true - if want to check in subfolders, false - if not
+     * @return set of unique file paths
+     */
     public static Set<String> listFiles(String path, boolean isRecursive) {
         return FileUtils.listFiles(new File(path), null, isRecursive)
                 .stream()
