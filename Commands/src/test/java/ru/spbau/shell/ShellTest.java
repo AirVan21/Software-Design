@@ -67,14 +67,7 @@ public class ShellTest {
         assertTrue(result.isPresent());
         assertEquals(FileManager.getPath(), result.get());
     }
-
-    @Test
-    public void testExit() {
-        final String line = "exit";
-        // exit work
-        assertEquals("sure", "sure");
-    }
-
+    
     @Test
     public void testWeakQuotes() {
         final String key = "user";
