@@ -5,4 +5,4 @@
 
 ## Description:
 
-![Google Doc](https://docs.google.com/document/d/16qultV6EpUhHc_GFt_kSPsUpykGkvRZJLOY4f_Jlq2o/edit)
+[Google Doc](https://docs.google.com/document/d/16qultV6EpUhHc_GFt_kSPsUpykGkvRZJLOY4f_Jlq2o/edit)
