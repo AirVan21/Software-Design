@@ -112,6 +112,22 @@ public class ShellVisitor extends ShellGrammarBaseVisitor {
     }
 
     @Override
+    public Object visitCd(ShellGrammarParser.CdContext ctx) {
+        CdVisitor cdVisitor = new CdVisitor();
+        visitCommand(cdVisitor, ctx);
+
+        return cdVisitor;
+    }
+
+    @Override
+    public Object visitLs(ShellGrammarParser.LsContext ctx) {
+        LsVisitor lsVisitor = new LsVisitor();
+        visitCommand(lsVisitor, ctx);
+
+        return lsVisitor;
+    }
+
+    @Override
     public Object visitId(ShellGrammarParser.IdContext ctx) {
         visitArgument(ctx.getText());
 

@@ -1,9 +1,12 @@
 package ru.spbau.shell;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import ru.spbau.shell.utility.FileManager;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +27,9 @@ public class ShellTest {
     // test test
     // code
     private final String FILE_NAME = "src/test/resources/test.txt";
+
+    @Rule
+    public TemporaryFolder tmp = new TemporaryFolder();
 
 
     @Test
@@ -165,5 +171,26 @@ public class ShellTest {
         final Optional<String> result = shell.handleInputLine(line);
         assertTrue(result.isPresent());
         assertEquals("3 7 39", result.get());
+    }
+
+    @Test
+    public void testCd() throws IOException {
+        File targetDirectory = tmp.newFolder("folder");
+        final String input = "cd " + targetDirectory.getAbsolutePath();
+
+        final Optional<String> result = shell.handleInputLine(input);
+        assertTrue(result.isPresent());
+        assertEquals(System.getProperty("user.dir"), targetDirectory.getAbsolutePath());
+    }
+
+    @Test
+    public void testLs() throws IOException {
+        File file = tmp.newFile("file");
+        final String input = "ls";
+
+        System.setProperty("user.dir", tmp.getRoot().getAbsolutePath());
+        final Optional<String> result = shell.handleInputLine(input);
+        assertTrue(result.isPresent());
+        assertEquals("file\n", result.get());
     }
 }

@@ -6,7 +6,7 @@ grammar ShellGrammar;
 
 command     : assignment | pipeCmd | simpleCmd |;
 pipeCmd     : simpleCmd ('|' simpleCmd)+ ;
-simpleCmd   : cat | echo | wc | pwd | exit | grep | process ;
+simpleCmd   : cat | echo | wc | pwd | exit | grep | process | cd | ls ;
 
 pwd         : 'pwd';
 exit        : 'exit';
@@ -14,6 +14,8 @@ cat         : 'cat' literal*;
 wc          : 'wc' literal*;
 echo        : 'echo' literal*;
 grep        : 'grep' literal+;
+cd          : 'cd' literal+;
+ls          : 'ls' literal*;
 assignment  : id '=' literal;
 process     : literal+;
 
@@ -26,11 +28,14 @@ fullQuoting : FullQString;
 weakQuoting : WeakQString;
 
 WS          : [ \t]+ -> channel(HIDDEN);
+GREP        : 'grep';
 CAT         : 'cat';
 ECHO        : 'echo';
 WC          : 'wc';
 PWD         : 'pwd';
 EXIT        : 'exit';
+CD          : 'cd';
+LS          : 'ls';
 ASSIGN      : '=';
 PIPE        : '|';
 Q_MARK	    : '\'';
