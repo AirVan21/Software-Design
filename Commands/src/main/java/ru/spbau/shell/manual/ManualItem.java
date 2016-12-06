@@ -16,7 +16,7 @@ public enum ManualItem {
             "\n     -i, ignore case distinctions in both the PATTERN and the input files" +
             "\n     -w, select only those lines containing matches that form whole words" +
             "\n     -A NUM, print NUM lines of trailing context after matching lines")
-    , CD_MAN("cd = change current directory to [DIR]\n cd [DIR]")
+    , CD_MAN("cd - change current directory to [DIR]\n cd [DIR]")
     , LS_MAN("ls - list of files in directory\n ls")
     ;
 

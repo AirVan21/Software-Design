@@ -15,7 +15,7 @@ wc          : 'wc' literal*;
 echo        : 'echo' literal*;
 grep        : 'grep' literal+;
 cd          : 'cd' literal+;
-ls          : 'ls';
+ls          : 'ls' literal*;
 assignment  : id '=' literal;
 process     : literal+;
 

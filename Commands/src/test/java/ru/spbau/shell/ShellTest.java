@@ -181,32 +181,23 @@ public class ShellTest {
     }
 
     @Test
-    public void testCd() {
-        try {
-            File targetDirectory = tmp.newFolder("folder");
-            final String input = "cd " + targetDirectory.getAbsolutePath();
+    public void testCd() throws IOException {
+        File targetDirectory = tmp.newFolder("folder");
+        final String input = "cd " + targetDirectory.getAbsolutePath();
 
-            final Optional<String> result = shell.handleInputLine(input);
-            assertTrue(result.isPresent());
-            assertEquals(System.getProperty("user.dir"), targetDirectory.getAbsolutePath());
-        } catch (IOException e) {
-            fail();
-        }
+        final Optional<String> result = shell.handleInputLine(input);
+        assertTrue(result.isPresent());
+        assertEquals(System.getProperty("user.dir"), targetDirectory.getAbsolutePath());
     }
 
     @Test
-    public void testLs() {
-        try {
-            File file = tmp.newFile("file");
-            final String input = "ls";
+    public void testLs() throws IOException {
+        File file = tmp.newFile("file");
+        final String input = "ls";
 
-            System.setProperty("user.dir", tmp.getRoot().getAbsolutePath());
-            final Optional<String> result = shell.handleInputLine(input);
-            assertTrue(result.isPresent());
-            assertEquals("file\n", result.get());
-        } catch (IOException e) {
-            fail();
-        }
-
+        System.setProperty("user.dir", tmp.getRoot().getAbsolutePath());
+        final Optional<String> result = shell.handleInputLine(input);
+        assertTrue(result.isPresent());
+        assertEquals("file\n", result.get());
     }
 }
