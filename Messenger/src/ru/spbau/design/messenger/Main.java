@@ -10,7 +10,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         IMessenger messenger = new Messenger("localhost");
-        IView gui = new JavaGUI(primaryStage);
+        IView gui = new JavaGUI(messenger, primaryStage);
         messenger.addView(gui);
         messenger.start();
     }

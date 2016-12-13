@@ -4,9 +4,7 @@ import ru.spbau.design.messenger.Messenger;
 import ru.spbau.design.messenger.model.ILogger;
 import ru.spbau.design.messenger.model.IMessage;
 import ru.spbau.design.messenger.model.Logger;
-import ru.spbau.design.messenger.model.User;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -18,7 +16,7 @@ public class Client {
     private final int port;
     private Socket socket;
     private DataOutputStream output;
-    private final ILogger logger = new Logger();
+    private final ILogger logger = new Logger(getClass().getName());
 
     public Client(Messenger messenger, String host, int port) {
         application = messenger;

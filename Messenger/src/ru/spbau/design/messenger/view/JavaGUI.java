@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ru.spbau.design.messenger.IMessenger;
 import ru.spbau.design.messenger.model.ILogger;
 import ru.spbau.design.messenger.model.IMessage;
 import ru.spbau.design.messenger.model.Logger;
@@ -26,9 +27,11 @@ import java.util.logging.Level;
 public class JavaGUI implements IView {
     private Stage stage;
     private TextArea chat;
-    private final ILogger logger = new Logger();
+    private IMessenger application;
+    private final ILogger logger = new Logger(getClass().getName());
 
-    public JavaGUI(Stage stage) {
+    public JavaGUI(IMessenger application, Stage stage) {
+        this.application = application;
         this.stage = stage;
         addScene();
     }
@@ -94,7 +97,6 @@ public class JavaGUI implements IView {
             String address = friendIpField.getText();
             String text = messageArea.getText();
             IMessage message = new Message(address, text);
-            logger.log(Level.INFO, message.toString());
             sendMessage(message);
         });
 
@@ -103,11 +105,13 @@ public class JavaGUI implements IView {
 
     @Override
     public void handleMessage(IMessage message) {
+        logger.log(Level.INFO, "handling message = " + message.toString());
 
     }
 
     @Override
     public void sendMessage(IMessage message) {
-        logger.log(Level.INFO, "Sent message: " + message.toString());
+        logger.log(Level.INFO, "sending message = " + message.toString());
+        application.sendMessage(message);
     }
 }

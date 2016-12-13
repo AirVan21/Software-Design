@@ -4,7 +4,6 @@ package ru.spbau.design.messenger.network;
 import ru.spbau.design.messenger.Messenger;
 import ru.spbau.design.messenger.model.ILogger;
 import ru.spbau.design.messenger.model.Logger;
-import ru.spbau.design.messenger.model.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,14 +12,14 @@ import java.util.logging.Level;
 
 public class Server {
     private final Messenger application;
-    private final User user;
+    private final int port;
     private ServerSocket socket;
     private volatile boolean isStopped;
-    private final ILogger logger = new Logger();
+    private final ILogger logger = new Logger(getClass().getName());
 
-    public Server(Messenger application, User user) {
+    public Server(Messenger application, int port) {
         this.application = application;
-        this.user = user;
+        this.port = port;
     }
 
     /**

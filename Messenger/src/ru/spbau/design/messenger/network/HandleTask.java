@@ -19,7 +19,7 @@ public class HandleTask implements Runnable {
     private final Messenger application;
     private final Socket taskSocket;
     private DataInputStream input;
-    private final ILogger logger = new Logger();
+    private final ILogger logger = new Logger(getClass().getName());
 
     public HandleTask(Messenger application, Socket connection) throws IOException {
         this.application = application;
