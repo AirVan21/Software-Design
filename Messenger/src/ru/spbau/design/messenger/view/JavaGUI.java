@@ -1,6 +1,8 @@
 package ru.spbau.design.messenger.view;
 
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,23 +16,30 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ru.spbau.design.messenger.model.ILogger;
 import ru.spbau.design.messenger.model.IMessage;
+import ru.spbau.design.messenger.model.Logger;
+import ru.spbau.design.messenger.model.Message;
 
-public class GUI implements IView {
+import java.util.logging.Level;
+
+public class JavaGUI implements IView {
     private Stage stage;
     private TextArea chat;
+    private final ILogger logger = new Logger();
 
-    public GUI(Stage stage) {
+    public JavaGUI(Stage stage) {
         this.stage = stage;
         addScene();
     }
 
+    @Override
     public void show() {
         stage.show();
     }
 
-    public void update(String chatContent) {
-        chat.setText(chatContent);
+    public void update(IMessage message) {
+
     }
 
     private void addScene()  {
@@ -47,13 +56,13 @@ public class GUI implements IView {
         grid.setVgap(25);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("Instant messenger");
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 18));
-        grid.add(scenetitle, 0, 0, 2, 1);
+        final Text sceneTitle = new Text("Instant messenger");
+        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 18));
+        grid.add(sceneTitle, 0, 0, 2, 1);
 
-        Label userName = new Label("Your Name:");
+        final Label userName = new Label("Your Name:");
         grid.add(userName, 0, 1);
-        TextField userNameField = new TextField();
+        final TextField userNameField = new TextField();
         grid.add(userNameField, 1, 1);
 
         Label friendIp = new Label("Friend IP:");
@@ -61,10 +70,10 @@ public class GUI implements IView {
         TextField friendIpField = new TextField();
         grid.add(friendIpField, 1, 2);
 
-        Label friendPort = new Label("Friend Port:");
-        grid.add(friendPort, 0, 3);
-        TextField friendIpPort = new TextField();
-        grid.add(friendIpPort, 1, 3);
+        Label friendName = new Label("Friend Name:");
+        grid.add(friendName, 0, 3);
+        TextField friendNameField = new TextField();
+        grid.add(friendNameField, 1, 3);
 
         chat = new TextArea();
         grid.add(chat, 1, 4);
@@ -81,12 +90,24 @@ public class GUI implements IView {
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(button);
         grid.add(hbBtn, 1, 6);
+        button.setOnAction(event -> {
+            String address = friendIpField.getText();
+            String text = messageArea.getText();
+            IMessage message = new Message(address, text);
+            logger.log(Level.INFO, message.toString());
+            sendMessage(message);
+        });
 
         return grid;
     }
 
     @Override
     public void handleMessage(IMessage message) {
-        
+
+    }
+
+    @Override
+    public void sendMessage(IMessage message) {
+        logger.log(Level.INFO, "Sent message: " + message.toString());
     }
 }

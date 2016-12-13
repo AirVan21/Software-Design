@@ -9,20 +9,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Messenger implements IMessenger {
+    private final static int PORT = 8841;
     private final List<IView> views = new ArrayList<>();
     private String host;
-    private int port;
     private Client client;
     private Server server;
 
-    public Messenger(String host, int port) {
+    public Messenger(String host) {
         this.host = host;
-        this.port = port;
     }
 
     @Override
     public void updateViews(IMessage message) {
         views.forEach(view -> view.handleMessage(message));
+    }
+
+    @Override
+    public void start() {
+        views.forEach(item -> item.show());
     }
 
     @Override
@@ -32,6 +36,11 @@ public class Messenger implements IMessenger {
 
     @Override
     public void handleMessage(IMessage message) {
+
+    }
+
+    @Override
+    public void sendMessage(IMessage message) {
 
     }
 }

@@ -68,7 +68,7 @@ public class Server {
             return;
         }
 
-        final HandleTask task = new HandleTask(connection);
+        final HandleTask task = new HandleTask(application, connection);
         new Thread(task).start();
     }
 }

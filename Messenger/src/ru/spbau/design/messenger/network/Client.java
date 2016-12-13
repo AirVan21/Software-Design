@@ -14,15 +14,16 @@ import java.util.logging.Level;
 
 public class Client {
     private final Messenger application;
-    private final User user;
+    private final String host;
+    private final int port;
     private Socket socket;
-    private DataInputStream input;
     private DataOutputStream output;
     private final ILogger logger = new Logger();
 
-    public Client(Messenger messenger, User user) {
+    public Client(Messenger messenger, String host, int port) {
         application = messenger;
-        this.user = user;
+        this.host = host;
+        this.port = port;
 
     }
 
@@ -32,8 +33,7 @@ public class Client {
             return;
         }
 
-        socket = new Socket(user.getHost(), user.getPort());
-        input = new DataInputStream(socket.getInputStream());
+        socket = new Socket(host, port);
         output = new DataOutputStream(socket.getOutputStream());
     }
 
