@@ -14,8 +14,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ru.spbau.design.messenger.model.IMessage;
 
-public class GUI {
+public class GUI implements IView {
     private Stage stage;
     private TextArea chat;
 
@@ -82,5 +83,10 @@ public class GUI {
         grid.add(hbBtn, 1, 6);
 
         return grid;
+    }
+
+    @Override
+    public void handleMessage(IMessage message) {
+        
     }
 }
