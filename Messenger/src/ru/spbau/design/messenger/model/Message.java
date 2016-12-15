@@ -2,10 +2,12 @@ package ru.spbau.design.messenger.model;
 
 public class Message implements IMessage {
     private String host;
+    private int port;
     private String text;
 
-    public Message(String host, String text) {
+    public Message(String host, int port, String text) {
         this.host = host;
+        this.port = port;
         this.text = text;
     }
 
@@ -29,6 +31,14 @@ public class Message implements IMessage {
 
     @Override
     public String toString() {
-        return "<" + host + ">: " + text;
+        return "<" + host + ":" + Integer.toString(port) + ">: " + text;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 }

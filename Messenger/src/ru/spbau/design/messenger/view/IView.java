@@ -6,5 +6,5 @@ import ru.spbau.design.messenger.model.IMessage;
 public interface IView {
     void show();
     void handleMessage(IMessage message);
-    void sendMessage(IMessage message);
+    void sendData(String data, String targetHost, int port);
 }

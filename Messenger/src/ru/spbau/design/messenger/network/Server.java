@@ -12,14 +12,12 @@ import java.util.logging.Level;
 
 public class Server {
     private final Messenger application;
-    private final int port;
     private ServerSocket socket;
     private volatile boolean isStopped;
     private final ILogger logger = new Logger(getClass().getName());
 
-    public Server(Messenger application, int port) {
+    public Server(Messenger application) {
         this.application = application;
-        this.port = port;
     }
 
     /**

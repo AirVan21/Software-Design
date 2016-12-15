@@ -1,8 +1,6 @@
 package ru.spbau.design.messenger.view;
 
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -37,12 +35,27 @@ public class JavaGUI implements IView {
     }
 
     @Override
+    public void handleMessage(IMessage message) {
+        logger.log(Level.INFO, "handling message = " + message.toString());
+        update(message);
+
+    }
+
+    @Override
+    public void sendData(String data, String targetHost, int port) {
+        logger.log(Level.INFO, "sending data = " + data);
+        application.sendMessage(data, targetHost, port);
+    }
+
+    @Override
     public void show() {
         stage.show();
     }
 
-    public void update(IMessage message) {
-
+    private void update(IMessage message) {
+        String before = chat.getText();
+        before += message.getText() + "\n";
+        chat.setText(before);
     }
 
     private void addScene()  {
@@ -67,16 +80,17 @@ public class JavaGUI implements IView {
         grid.add(userName, 0, 1);
         final TextField userNameField = new TextField();
         grid.add(userNameField, 1, 1);
+        userNameField.setText(application.getHost() + ":" + Integer.toString(application.getPort()));
 
         Label friendIp = new Label("Friend IP:");
         grid.add(friendIp, 0, 2);
         TextField friendIpField = new TextField();
         grid.add(friendIpField, 1, 2);
 
-        Label friendName = new Label("Friend Name:");
-        grid.add(friendName, 0, 3);
-        TextField friendNameField = new TextField();
-        grid.add(friendNameField, 1, 3);
+        Label friendPort = new Label("Friend Port:");
+        grid.add(friendPort, 0, 3);
+        TextField friendPortField = new TextField();
+        grid.add(friendPortField, 1, 3);
 
         chat = new TextArea();
         grid.add(chat, 1, 4);
@@ -95,23 +109,11 @@ public class JavaGUI implements IView {
         grid.add(hbBtn, 1, 6);
         button.setOnAction(event -> {
             String address = friendIpField.getText();
+            int port = Integer.parseInt(friendPortField.getText());
             String text = messageArea.getText();
-            IMessage message = new Message(address, text);
-            sendMessage(message);
+            sendData(text, address, port);
         });
 
         return grid;
-    }
-
-    @Override
-    public void handleMessage(IMessage message) {
-        logger.log(Level.INFO, "handling message = " + message.toString());
-
-    }
-
-    @Override
-    public void sendMessage(IMessage message) {
-        logger.log(Level.INFO, "sending message = " + message.toString());
-        application.sendMessage(message);
     }
 }

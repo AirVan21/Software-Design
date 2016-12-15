@@ -2,31 +2,27 @@ package ru.spbau.design.messenger;
 
 import ru.spbau.design.messenger.model.IMessage;
 import ru.spbau.design.messenger.model.Logger;
+import ru.spbau.design.messenger.model.Message;
 import ru.spbau.design.messenger.network.Client;
 import ru.spbau.design.messenger.network.Server;
 import ru.spbau.design.messenger.view.IView;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
 public class Messenger implements IMessenger {
-    private final static int PORT = 8841;
+    private final String host;
+    private final int port;
     private final List<IView> views = new ArrayList<>();
-    private String host;
-    private Client client;
-    private Server server;
+    private final Server server = new Server(this);
     private Logger logger = new Logger(getClass().getName());
 
-    public Messenger(String host) {
+    public Messenger(String host, int port) throws IOException {
         this.host = host;
-    }
-
-    @Override
-    public void updateViews(IMessage message) {
-        views.forEach(view -> view.handleMessage(message));
+        this.port = port;
+        server.start(port);
     }
 
     @Override
@@ -41,19 +37,41 @@ public class Messenger implements IMessenger {
 
     @Override
     public void handleMessage(IMessage message) {
-
+        logger.log(Level.INFO, "handled message = " + message.toString());
+        updateViews(message);
     }
 
     @Override
-    public void sendMessage(IMessage message)  {
-        logger.log(Level.INFO, "sendMessage = " + message.toString());
-        client = new Client(this, message.getHost(), PORT);
+    public void sendMessage(String data, String address, int port)  {
+        IMessage message = new Message(host, this.port, data);
+        logger.log(Level.INFO, "send message = " + message.toString());
+        Client client = new Client(this, address, port);
         try {
-            client.connet();
+            client.conneсt();
             client.sendMessage(message);
             client.disconnect();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                client.disconnect();
+            } catch (IOException e) {
+                logger.log(Level.WARNING, e.getMessage());
+            }
         }
+    }
+
+    @Override
+    public String getHost() {
+        return host;
+    }
+
+    @Override
+    public int getPort() {
+        return port;
+    }
+
+    private void updateViews(IMessage message) {
+        views.forEach(view -> view.handleMessage(message));
     }
 }
