@@ -38,6 +38,11 @@ public class Message implements IMessage {
         return port;
     }
 
+    @Override
+    public String getAddress() {
+        return host + ":" + Integer.toString(port);
+    }
+
     public void setPort(int port) {
         this.port = port;
     }

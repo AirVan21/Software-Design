@@ -18,8 +18,9 @@ import ru.spbau.design.messenger.IMessenger;
 import ru.spbau.design.messenger.model.ILogger;
 import ru.spbau.design.messenger.model.IMessage;
 import ru.spbau.design.messenger.model.Logger;
-import ru.spbau.design.messenger.model.Message;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 
 public class JavaGUI implements IView {
@@ -35,13 +36,6 @@ public class JavaGUI implements IView {
     }
 
     @Override
-    public void handleMessage(IMessage message) {
-        logger.log(Level.INFO, "handling message = " + message.toString());
-        update(message);
-
-    }
-
-    @Override
     public void sendData(String data, String targetHost, int port) {
         logger.log(Level.INFO, "sending data = " + data);
         application.sendMessage(data, targetHost, port);
@@ -52,11 +46,22 @@ public class JavaGUI implements IView {
         stage.show();
     }
 
-    private void update(IMessage message) {
-        String before = chat.getText();
-        before += message.getText() + "\n";
-        chat.setText(before);
+    @Override
+    public void handleUpdate(Optional<List<IMessage>> messages) {
+        if (!messages.isPresent()) {
+            return;
+        }
+        final StringBuilder sb = new StringBuilder();
+        for (IMessage message : messages.get()) {
+            sb.append("<")
+                    .append(message.getAddress())
+                    .append(">: ")
+                    .append(message.getText())
+                    .append("\n");
+        }
+        chat.setText(sb.toString());
     }
+
 
     private void addScene()  {
         final GridPane grid = buildGrid();
@@ -108,10 +113,12 @@ public class JavaGUI implements IView {
         hbBtn.getChildren().add(button);
         grid.add(hbBtn, 1, 6);
         button.setOnAction(event -> {
-            String address = friendIpField.getText();
-            int port = Integer.parseInt(friendPortField.getText());
-            String text = messageArea.getText();
-            sendData(text, address, port);
+            if (!friendIp.getText().isEmpty() && !friendPortField.getText().isEmpty() && !messageArea.getText().isEmpty()) {
+                String address = friendIpField.getText();
+                int port = Integer.parseInt(friendPortField.getText());
+                String text = messageArea.getText();
+                sendData(text, address, port);
+            }
         });
 
         return grid;
