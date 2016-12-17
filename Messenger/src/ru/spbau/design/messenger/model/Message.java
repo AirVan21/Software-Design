@@ -16,17 +16,9 @@ public class Message implements IMessage {
         return host;
     }
 
-    public void setHost(String host) {
-        this.host = host;
-    }
-
     @Override
     public String getText() {
         return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     @Override

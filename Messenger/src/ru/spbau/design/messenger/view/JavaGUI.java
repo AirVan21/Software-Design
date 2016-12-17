@@ -24,10 +24,16 @@ import java.util.Optional;
 import java.util.logging.Level;
 
 public class JavaGUI implements IView {
-    private Stage stage;
-    private TextArea chat;
     private IMessenger application;
+    private Stage stage;
     private final ILogger logger = new Logger(getClass().getName());
+    // GUI elements
+    private Optional<Label> warningLabel = Optional.empty();
+    private TextField userNameField;
+    private TextField friendIpField;
+    private TextField friendPortField;
+    private TextArea messageArea;
+    private TextArea chat;
 
     public JavaGUI(IMessenger application, Stage stage) {
         this.application = application;
@@ -48,7 +54,7 @@ public class JavaGUI implements IView {
 
     @Override
     public void handleUpdate(Optional<List<IMessage>> messages) {
-        if (!messages.isPresent()) {
+        if (!messages.isPresent() || messages.get().isEmpty()) {
             return;
         }
         final StringBuilder sb = new StringBuilder();
@@ -62,7 +68,6 @@ public class JavaGUI implements IView {
         chat.setText(sb.toString());
     }
 
-
     private void addScene()  {
         final GridPane grid = buildGrid();
         Scene scene = new Scene(grid, 600, 500);
@@ -71,7 +76,7 @@ public class JavaGUI implements IView {
 
     private GridPane buildGrid() {
         final GridPane grid = new GridPane();
-
+        // Sets gaps
         grid.setAlignment(Pos.TOP_CENTER);
         grid.setHgap(20);
         grid.setVgap(25);
@@ -83,44 +88,64 @@ public class JavaGUI implements IView {
 
         final Label userName = new Label("Your Name:");
         grid.add(userName, 0, 1);
-        final TextField userNameField = new TextField();
+        userNameField = new TextField();
         grid.add(userNameField, 1, 1);
         userNameField.setText(application.getHost() + ":" + Integer.toString(application.getPort()));
 
-        Label friendIp = new Label("Friend IP:");
+        final Label friendIp = new Label("Friend IP:");
         grid.add(friendIp, 0, 2);
-        TextField friendIpField = new TextField();
+        friendIpField = new TextField();
         grid.add(friendIpField, 1, 2);
 
-        Label friendPort = new Label("Friend Port:");
+        final Label friendPort = new Label("Friend Port:");
         grid.add(friendPort, 0, 3);
-        TextField friendPortField = new TextField();
+        friendPortField = new TextField();
         grid.add(friendPortField, 1, 3);
 
         chat = new TextArea();
         grid.add(chat, 1, 4);
         chat.setEditable(false);
 
-        Label userMessage = new Label("Message:");
+        final Label userMessage = new Label("Message:");
         grid.add(userMessage, 0, 5);
-        TextArea messageArea = new TextArea();
+        messageArea = new TextArea();
         messageArea.setMaxHeight(100);
         grid.add(messageArea, 1, 5);
 
-        Button button = new Button("Send message");
-        HBox hbBtn = new HBox(25);
+        addButtonToGrid(grid);
+
+        return grid;
+    }
+
+    private void addButtonToGrid(GridPane grid) {
+        final Button button = new Button("Send message");
+        final HBox hbBtn = new HBox(25);
+
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(button);
         grid.add(hbBtn, 1, 6);
+
         button.setOnAction(event -> {
-            if (!friendIp.getText().isEmpty() && !friendPortField.getText().isEmpty() && !messageArea.getText().isEmpty()) {
+            if (!mainFieldIsEmpty()) {
                 String address = friendIpField.getText();
                 int port = Integer.parseInt(friendPortField.getText());
-                String text = messageArea.getText();
+                String name = userNameField.getText();
+                String text = "(" + name + ") " + messageArea.getText();
                 sendData(text, address, port);
+                messageArea.clear();
+                if (warningLabel.isPresent())  {
+                    warningLabel.get().setText("");
+                }
+            } else {
+                if (!warningLabel.isPresent()) {
+                    warningLabel = Optional.of(new Label("Fill fields!"));
+                    grid.add(warningLabel.get(), 0, 6);
+                }
             }
         });
+    }
 
-        return grid;
+    private boolean mainFieldIsEmpty() {
+        return friendPortField.getText().isEmpty() || friendPortField.getText().isEmpty() || messageArea.getText().isEmpty();
     }
 }

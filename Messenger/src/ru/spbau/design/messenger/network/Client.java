@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
 
+/**
+ * Client is a class for sending messages
+ */
 public class Client {
     private final Messenger application;
     private final String host;
@@ -27,6 +30,10 @@ public class Client {
 
     }
 
+    /**
+     * Connects to server
+     * @throws IOException
+     */
     public synchronized void conneсt() throws IOException {
         if (socket != null) {
             logger.log(Level.WARNING, "Connection is already opened!");

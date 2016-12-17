@@ -10,6 +10,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 
+/**
+ * Server is a class for handling messages
+ */
 public class Server {
     private final Messenger application;
     private ServerSocket socket;
@@ -26,6 +29,8 @@ public class Server {
      * @throws IOException
      */
     public synchronized void start(int port) throws IOException {
+        logger.log(Level.INFO, ": staring server on port = " + Integer.toString(port));
+
         if (socket != null) {
             logger.log(Level.WARNING, "Server is already up!");
             return;
@@ -58,6 +63,8 @@ public class Server {
      * @throws IOException
      */
     private void acceptTask() throws IOException {
+        logger.log(Level.INFO, ": accepts task");
+
         final Socket connection;
         try {
             connection = socket.accept();
